@@ -68,6 +68,15 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .chip{background:rgba(255,255,255,.1);border-radius:999px;padding:6px 12px;font-size:14px;font-weight:700}
 .bz{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}.bz span{background:rgba(255,255,255,.1);border-radius:999px;padding:7px 2px;font-size:15px;font-weight:800;text-align:center;white-space:nowrap;font-variant-numeric:tabular-nums}
+.ing summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:19px}
+.ing summary::-webkit-details-marker{display:none}
+.ing summary::after{content:"＋";color:var(--muted);font-size:20px}.ing[open] summary::after{content:"－"}
+.ing[open] summary{margin-bottom:8px}
+.ing label.it{display:flex;align-items:center;gap:12px;text-transform:none;letter-spacing:0;font-size:18px;font-weight:700;color:var(--ink);margin:0;padding:11px 2px;border-bottom:1px solid var(--line);cursor:pointer}
+.ing label.it:last-of-type{border-bottom:0}
+.ing input[type=checkbox]{width:24px;height:24px;padding:0;flex:none;accent-color:var(--crust);-webkit-appearance:auto;appearance:auto}
+.ing label.it.done span{text-decoration:line-through;color:var(--muted)}
+.ing .clr{border:0;background:var(--soft);font:inherit;font-weight:800;font-size:14px;padding:8px 14px;border-radius:11px;margin-top:10px;cursor:pointer;color:var(--ink)}
 .warn{color:#ffb27a;font-weight:700;font-size:14px;margin:8px 0 0}
 </style>
 </head>
@@ -128,6 +137,7 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
     </div>
   </div>
   <div class="result" id="p-out"></div>
+  <details class="card ing" id="p-ing"><summary>Malzeme listesi</summary><div id="p-ingList"></div><button class="clr" id="p-ingClr">İşaretleri temizle</button></details>
 </section>
 
 <!-- FOCACCIA -->
@@ -219,6 +229,15 @@ function calcP(){
   $('#p-out').innerHTML=h;
 }
 hydUI();calcP();
+
+/* pizza malzeme listesi */
+const ING=['Pizza unu','Domates sosu','Rende peynir','Dilim zeytin','Sucuk','Sosis','Mantar','Mor soğan','Mısır','Kekik'];
+let ingDone=LS.get('ing',{});
+function renderIng(){$('#p-ingList').innerHTML=ING.map((x,i)=>`<label class="it${ingDone[x]?' done':''}"><input type="checkbox" data-i="${i}"${ingDone[x]?' checked':''}><span>${x}</span></label>`).join('');
+  $$('#p-ingList input').forEach(c=>c.onchange=()=>{const x=ING[c.dataset.i];if(c.checked)ingDone[x]=1;else delete ingDone[x];LS.set('ing',ingDone);c.parentNode.classList.toggle('done',c.checked)})}
+$('#p-ingClr').onclick=()=>{ingDone={};LS.set('ing',ingDone);renderIng()};
+$('#p-ing').open=LS.get('ingOpen',false);$('#p-ing').addEventListener('toggle',()=>LS.set('ingOpen',$('#p-ing').open));
+renderIng();
 
 /* ---------- 3. FOCACCIA ---------- */
 let Fo=Object.assign({flour:500,yeast:'dry'},LS.get('f',{}));
