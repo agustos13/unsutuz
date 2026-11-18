@@ -18,6 +18,7 @@
 :root{--bg:#f6efe3;--card:#fffaf2;--ink:#1d1a16;--muted:#7a6f62;--line:#e6dccb;--crust:#b5652b;--crust-d:#8f4c1d;--soft:#efe3cf;--r:20px}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,sans-serif;font-size:17px;line-height:1.4}
+body:not(.inner) header{min-height:0;padding-bottom:0}
 header{display:flex;align-items:center;gap:12px;padding:calc(12px + env(safe-area-inset-top)) 18px 4px;max-width:640px;margin:0 auto;min-height:76px}
 header .logo{height:60px;mix-blend-mode:multiply;cursor:pointer}
 .back{display:none;border:0;background:var(--soft);width:44px;height:44px;border-radius:14px;font-size:24px;font-weight:900;color:var(--ink);cursor:pointer;flex:none}
@@ -72,7 +73,6 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
 <body>
 <header>
   <button class="back" id="back" aria-label="Geri">‹</button>
-  <img class="logo" src="icons/logo.png" alt="un su tuz" id="logo">
   <h1 id="title"></h1>
 </header>
 
@@ -166,7 +166,7 @@ window.addEventListener('hashchange',route);
 let fromHome=false;
 $$('[data-go]').forEach(b=>b.onclick=()=>{fromHome=true;location.hash=b.dataset.go});
 function goHome(){if(fromHome){fromHome=false;history.back()}else location.hash=''}
-$('#back').onclick=goHome;$('#logo').onclick=()=>{if(location.hash.length>1)goHome()};
+$('#back').onclick=goHome;
 
 /* ---------- 1. EKŞİ MAYALI EKMEK (Tartine) ---------- */
 let E=LS.get('e',{flour:1000});
@@ -209,7 +209,9 @@ function calcP(){
   if(t&&P.where==='room'&&t<120)h+=`<p class="warn">2 saatten kısa mayalanma Napoliten hamur için önerilmez.</p>`;
   if(t&&P.where==='room'&&t>1440)h+=`<p class="warn">Oda sıcaklığında 24 saatten uzun mayalanma için buzdolabını seçin.</p>`;
   if(t&&Y>0&&Y<0.5)h+=`<p class="warn">Maya çok az: hassas terazi yoksa 1 g mayayı 10 g suda eritip ${g2(Y*10)} g'ını kullanın.</p>`;
-  h+=`<div class="chips"><span class="chip">Toplam hamur ${g(F+W+S+Y)} g</span><span class="chip">≈ ${Math.max(1,Math.round((F+W+S)/260))} top × 260 g</span></div>`;
+  const T=F+W+S+Y;
+  h+=`<div class="chips"><span class="chip">Toplam hamur ${g(T)} g</span></div>`;
+  h+=`<h3 style="margin-top:16px">Beze</h3><div class="chips">`+[260,280,300].map(w=>`<span class="chip" style="font-size:16px">${Math.floor(T/w)} × ${w} g</span>`).join('')+`</div>`;
   $('#p-out').innerHTML=h;
 }
 hydUI();calcP();
