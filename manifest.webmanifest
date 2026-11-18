@@ -1,7 +1,7 @@
 {
   "name": "un su tuz",
   "short_name": "unsutuz",
-  "description": "Ekmek hesaplayıcı, tarif defteri, hamur planı ve ekşi maya takibi",
+  "description": "Ekşi mayalı ekmek, Napoliten pizza ve focaccia hamur hesaplayıcı",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
