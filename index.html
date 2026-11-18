@@ -211,7 +211,7 @@ function calcP(){
   if(t&&Y>0&&Y<0.5)h+=`<p class="warn">Maya çok az: hassas terazi yoksa 1 g mayayı 10 g suda eritip ${g2(Y*10)} g'ını kullanın.</p>`;
   const T=F+W+S+Y;
   h+=`<div class="chips"><span class="chip">Toplam hamur ${g(T)} g</span></div>`;
-  h+=`<h3 style="margin-top:16px">Beze</h3><div class="chips">`+[260,280,300].map(w=>`<span class="chip" style="font-size:16px">${Math.floor(T/w)} × ${w} g</span>`).join('')+`</div>`;
+  h+=`<h3 style="margin-top:16px">Beze</h3><div class="chips">`+[260,280,300].map(w=>`<span class="chip" style="font-size:16px">${Math.max(1,Math.round(T/w))} × ${w} g</span>`).join('')+`</div>`;
   $('#p-out').innerHTML=h;
 }
 hydUI();calcP();
