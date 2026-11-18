@@ -67,6 +67,7 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
 .sub{display:flex;justify-content:space-between;padding:0 0 8px 14px;font-size:15px;opacity:.72;margin-top:-4px}
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .chip{background:rgba(255,255,255,.1);border-radius:999px;padding:6px 12px;font-size:14px;font-weight:700}
+.bz{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}.bz span{background:rgba(255,255,255,.1);border-radius:999px;padding:7px 2px;font-size:15px;font-weight:800;text-align:center;white-space:nowrap;font-variant-numeric:tabular-nums}
 .warn{color:#ffb27a;font-weight:700;font-size:14px;margin:8px 0 0}
 </style>
 </head>
@@ -211,9 +212,9 @@ function calcP(){
   if(t&&Y>0&&Y<0.5)h+=`<p class="warn">Maya çok az: hassas terazi yoksa 1 g mayayı 10 g suda eritip ${g2(Y*10)} g'ını kullanın.</p>`;
   const T=F+W+S+Y;
   h+=`<div class="chips"><span class="chip">Toplam hamur ${g(T)} g</span></div>`;
-  h+=`<h3 style="margin-top:16px">Beze</h3><div class="chips">`+[260,280,300].map(w=>`<span class="chip" style="font-size:16px">${Math.max(1,Math.round(T/w))} × ${w} g</span>`).join('')+`</div>`;
+  h+=`<h3 style="margin-top:16px">Beze</h3><div class="bz">`+[260,280,300].map(w=>`<span>${Math.max(1,Math.round(T/w))} × ${w} g</span>`).join('')+`</div>`;
   const cs=[260,280,300].map(w=>Math.max(1,Math.round(T/w)));const n=Math.max(2,Math.round(cs.reduce((a,b)=>a+b,0)/3));
-  h+=`<div class="chips">`+[n-1,n,n+1].map(k=>`<span class="chip" style="font-size:16px">${k} × ${g(T/k)} g</span>`).join('')+`</div>`;
+  h+=`<div class="bz">`+[n-1,n,n+1].map(k=>`<span>${k} × ${g(T/k)} g</span>`).join('')+`</div>`;
   $('#p-out').innerHTML=h;
 }
 hydUI();calcP();
