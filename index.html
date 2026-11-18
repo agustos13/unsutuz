@@ -212,6 +212,8 @@ function calcP(){
   const T=F+W+S+Y;
   h+=`<div class="chips"><span class="chip">Toplam hamur ${g(T)} g</span></div>`;
   h+=`<h3 style="margin-top:16px">Beze</h3><div class="chips">`+[260,280,300].map(w=>`<span class="chip" style="font-size:16px">${Math.max(1,Math.round(T/w))} × ${w} g</span>`).join('')+`</div>`;
+  const cs=[260,280,300].map(w=>Math.max(1,Math.round(T/w)));const n=Math.max(2,Math.round(cs.reduce((a,b)=>a+b,0)/3));
+  h+=`<div class="chips">`+[n-1,n,n+1].map(k=>`<span class="chip" style="font-size:16px">${k} × ${g(T/k)} g</span>`).join('')+`</div>`;
   $('#p-out').innerHTML=h;
 }
 hydUI();calcP();
